@@ -38,14 +38,18 @@ public:
     H5HeaderMessage headerMessage(int i) const;
 
 private:
-    std::vector<uint64_t> _messageOffset;
-    void _init();
+    std::vector<H5HeaderMessage> _messages;
+    int version() const;
 
-    uint32_t referenceCount() const;
-    uint32_t headerSize() const;
-    uint16_t messageType(int i) const;
-    uint16_t messageSize(int i) const;
-    uint8_t messageFlags(int i) const;
+    void _init();
+    void _initV1();
+    void _initV2();
+
+    void _addBlockV2(size_t currentOffset,
+                     size_t blockSize,
+                     size_t optionalBytesInMessageHeader);
+
+    void _printMsgDebug(const H5HeaderMessage& msg);
 };
 
 #endif  // H5OBJECTHEADER_H

@@ -25,6 +25,7 @@ SOFTWARE.
 #include "H5DataLayoutMsg.h"
 #include <assert.h>
 #include <iostream>
+#include <sstream>
 #include <stdexcept>
 
 #define DEBUG_OFFSET 0
@@ -83,4 +84,11 @@ uint32_t H5DataLayoutMsg::chunkDim(int i) const {
 void H5DataLayoutMsg::_init() {
     assert(this->read_u8(0) == 3);  // Version == 3
     assert(layoutClass() < 3);
+}
+
+std::string H5DataLayoutMsg::debugSummary() const {
+    std::stringstream out;
+    out << "DataLayout Message [0x" << std::hex << TYPE_ID
+        << "] - layout class: " << std::dec << (int)layoutClass();
+    return out.str();
 }

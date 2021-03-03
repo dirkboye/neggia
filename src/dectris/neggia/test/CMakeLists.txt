@@ -31,6 +31,14 @@ add_executable(Test_Dataset Test_Dataset.cpp DatasetsFixture.cpp)
 target_link_libraries(Test_Dataset neggia_static z gtest gtest_main pthread)
 add_test(Test_Dataset Test_Dataset)
 
+add_executable(Test_Eiger1 Test_Eiger1.cpp DatasetsFixture.cpp)
+target_link_libraries(Test_Eiger1 neggia_static z gtest gtest_main pthread)
+add_test(Test_Eiger1 Test_Eiger1)
+
+add_executable(Test_Eiger2 Test_Eiger2.cpp DatasetsFixture.cpp)
+target_link_libraries(Test_Eiger2 neggia_static z gtest gtest_main pthread)
+add_test(Test_Eiger2 Test_Eiger2)
+
 add_executable(Test_XdsPlugin Test_XdsPlugin.cpp DatasetsFixture.cpp $<TARGET_OBJECTS:NEGGIA_COMPRESSION_ALGORITHMS>)
 target_link_libraries(Test_XdsPlugin z dl gtest gtest_main pthread)
 ADD_DEFINITIONS(-DPATH_TO_XDS_PLUGIN=\"${DECTRIS_NEGGIA_XDS_PLUGIN}\")

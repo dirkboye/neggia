@@ -23,6 +23,7 @@ SOFTWARE.
 */
 
 #include "H5LinkInfoMessage.h"
+#include <sstream>
 
 H5LinkInfoMsg::H5LinkInfoMsg(const char* fileAddress, size_t offset)
       : H5Object(fileAddress, offset) {}
@@ -49,4 +50,12 @@ uint64_t H5LinkInfoMsg::getBTreeAddress() const {
         return read_u64(18);
     else
         return read_u64(10);
+}
+
+std::string H5LinkInfoMsg::debugSummary() const {
+    std::stringstream out;
+    out << "Link Info Message [0x" << std::hex << TYPE_ID
+        << "] - fractal heap address: 0x" << getFractalHeapAddress()
+        << ", b-tree address: 0x" << getBTreeAddress();
+    return out.str();
 }

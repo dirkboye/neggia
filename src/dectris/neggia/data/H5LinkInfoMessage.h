@@ -38,6 +38,8 @@ public:
     bool existsMaximumCreationIndex() const;
     uint64_t getFractalHeapAddress() const;
     uint64_t getBTreeAddress() const;
+
+    std::string debugSummary() const;
 };
 
 #endif  // H5LINKINFOMESSAGE_H

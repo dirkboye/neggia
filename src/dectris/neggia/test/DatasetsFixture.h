@@ -29,7 +29,7 @@ SOFTWARE.
 #include <sstream>
 #include <string>
 
-class TestDataset : public ::testing::Test {
+class TestWithArtificialData : public ::testing::Test {
 public:
     void SetUp();
     std::string getTargetDataset(size_t i) const;
@@ -46,24 +46,56 @@ public:
     using DATA_TYPE = uint16_t;
     DATA_TYPE dataArray[HEIGHT * WIDTH];
 
-protected:
     virtual size_t getNumberOfDatasets() const = 0;
     virtual std::string getPathToSourceFile() const = 0;
 };
 
-class TestDatasetArtificialSmall001 : public TestDataset {
-protected:
+class TestDatasetArtificialSmall001 : public TestWithArtificialData {
+public:
     size_t getNumberOfDatasets() const override { return 1; }
     std::string getPathToSourceFile() const override {
         return "h5-testfiles/dataset_artificial_small_001/test_master.h5";
     }
 };
 
-class TestDatasetArtificialLarge001 : public TestDataset {
-protected:
+class TestDatasetArtificialLarge001 : public TestWithArtificialData {
+public:
     size_t getNumberOfDatasets() const override { return 1000; }
     std::string getPathToSourceFile() const override {
         return "h5-testfiles/dataset_artificial_large_001/test_master.h5";
+    }
+};
+
+class TestWithExampleData : public ::testing::Test {
+public:
+    void SetUp();
+    std::string getTargetDataset(size_t i) const;
+
+    virtual size_t getFramesPerDataset() const = 0;
+    virtual size_t getWidth() const = 0;
+    virtual size_t getHeight() const = 0;
+    virtual size_t getNumberOfDatasets() const = 0;
+    virtual std::string getPathToSourceFile() const = 0;
+};
+
+class TestDatasetEiger1001 : public TestWithExampleData {
+public:
+    size_t getFramesPerDataset() const override { return 50; }
+    size_t getWidth() const override { return 1030; }
+    size_t getHeight() const override { return 514; }
+    size_t getNumberOfDatasets() const override { return 1; }
+    std::string getPathToSourceFile() const override {
+        return "h5-testfiles/dataset_eiger1_001/eiger1_master.h5";
+    }
+};
+class TestDatasetEiger2001 : public TestWithExampleData {
+public:
+    size_t getFramesPerDataset() const override { return 50; }
+    size_t getWidth() const override { return 1030; }
+    size_t getHeight() const override { return 514; }
+    size_t getNumberOfDatasets() const override { return 1; }
+    std::string getPathToSourceFile() const override {
+        return "h5-testfiles/dataset_eiger2_001/eiger2_master.h5";
     }
 };
 

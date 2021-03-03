@@ -34,13 +34,17 @@ public:
     H5DataspaceMsg(const H5Object&);
     H5DataspaceMsg(const char* fileAddress, size_t offset);
     uint8_t rank() const;
+    uint8_t version() const;
     bool maxDims() const;
     uint64_t dim(int i) const;
     uint64_t maxDim(int i) const;
     constexpr static unsigned int TYPE_ID = 0x1;
 
+    std::string debugSummary() const;
+
 private:
     void _init();
+    uint64_t _dimsOffset;
 };
 
 #endif  // H5DATASPACEMSG_H

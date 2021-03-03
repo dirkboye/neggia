@@ -46,6 +46,8 @@ public:
     uint32_t chunkDim(int i) const;
     constexpr static unsigned int TYPE_ID = 0x8;
 
+    std::string debugSummary() const;
+
 private:
     void _init();
 };

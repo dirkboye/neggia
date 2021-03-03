@@ -53,4 +53,4 @@ private:
                                                const H5Path& path);
 };
 
-#endif  // PATH_RESOLVER_V1_H
+#endif  // PATH_RESOLVER_V0_H

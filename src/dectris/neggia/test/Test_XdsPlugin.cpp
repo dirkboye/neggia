@@ -53,7 +53,7 @@ typedef void (*plugin_close_file)(int* error_flag);
 class TestXdsPlugin : public TestDatasetArtificialSmall001 {
 public:
     void SetUp() {
-        TestDataset::SetUp();
+        TestWithArtificialData::SetUp();
         pluginHandle = dlopen(PATH_TO_XDS_PLUGIN, RTLD_NOW);
         open_file = (plugin_open_file)dlsym(pluginHandle, "plugin_open");
         get_header =

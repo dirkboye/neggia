@@ -24,6 +24,7 @@ SOFTWARE.
 
 #include "H5LinkMsg.h"
 #include <assert.h>
+#include <sstream>
 #include <stdexcept>
 
 H5LinkMsg::H5LinkMsg(const char* fileAddress, size_t offset)
@@ -142,4 +143,12 @@ void H5LinkMsg::_init() {
         default:
             assert(false);
     }
+}
+
+std::string H5LinkMsg::debugSummary() const {
+    std::stringstream out;
+    out << "Link Message [0x" << std::hex << TYPE_ID << "] - link name: '"
+        << _linkName << "', target file: '" << _targetFile
+        << "', target path: '" << _targetPath << "'";
+    return out.str();
 }

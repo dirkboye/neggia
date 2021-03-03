@@ -23,6 +23,7 @@ SOFTWARE.
 */
 
 #include "H5DataspaceMsg.h"
+#include <sstream>
 #include "assert.h"
 
 H5DataspaceMsg::H5DataspaceMsg(const H5Object& obj) : H5Object(obj) {
@@ -34,6 +35,10 @@ H5DataspaceMsg::H5DataspaceMsg(const char* fileAddress, size_t offset)
     this->_init();
 }
 
+uint8_t H5DataspaceMsg::version() const {
+    return this->read_u8(0);
+}
+
 uint8_t H5DataspaceMsg::rank() const {
     return this->read_u8(1);
 }
@@ -43,14 +48,34 @@ bool H5DataspaceMsg::maxDims() const {
 }
 
 uint64_t H5DataspaceMsg::dim(int i) const {
-    return this->read_u64(8 + i * 8);
+    return this->read_u64(_dimsOffset + i * 8);
 }
 
 uint64_t H5DataspaceMsg::maxDim(int i) const {
     assert(this->maxDims());
-    return this->read_u64(8 + this->rank() * 8 + i * 8);
+    return this->read_u64(_dimsOffset + this->rank() * 8 + i * 8);
 }
 
 void H5DataspaceMsg::_init() {
-    assert(this->read_u8(0) == 1);
+    assert(version() == 1 || version() == 2);
+    switch (version()) {
+        case 1: {
+            _dimsOffset = 8;
+        } break;
+        case 2: {
+            _dimsOffset = 4;
+        } break;
+        default:
+            throw std::runtime_error("H5DataspaceMsg version " +
+                                     std::to_string(version()) +
+                                     " not supported.");
+    }
+}
+
+std::string H5DataspaceMsg::debugSummary() const {
+    std::stringstream out;
+    out << "Dataspace Message [0x" << std::hex << TYPE_ID
+        << "] - version: " << std::dec << (int)version()
+        << ", rank: " << (int)rank();
+    return out.str();
 }

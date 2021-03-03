@@ -30,6 +30,12 @@ cmake_policy(SET CMP0003 NEW)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -O3")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -g -O3")
+
+option(DEBUG_PARSING "Print debug information during parsing of HDF5" OFF)
+if(DEBUG_PARSING)
+  add_definitions(-DDEBUG_PARSING)
+endif()
+
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 enable_testing()

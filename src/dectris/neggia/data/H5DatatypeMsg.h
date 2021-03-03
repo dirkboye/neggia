@@ -38,6 +38,8 @@ public:
     bool isSigned() const;
     constexpr static unsigned int TYPE_ID = 0x3;
 
+    std::string debugSummary() const;
+
 private:
     void _init();
 };

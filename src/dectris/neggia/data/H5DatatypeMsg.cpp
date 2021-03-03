@@ -24,6 +24,7 @@ SOFTWARE.
 
 #include "H5DatatypeMsg.h"
 #include <assert.h>
+#include <sstream>
 
 H5DatatypeMsg::H5DatatypeMsg(const char* fileAddress, size_t offset)
       : H5Object(fileAddress, offset) {
@@ -56,4 +57,12 @@ bool H5DatatypeMsg::isSigned() const {
 void H5DatatypeMsg::_init() {
     unsigned int t = typeId();
     assert(t == 0 || t == 1);
+}
+
+std::string H5DatatypeMsg::debugSummary() const {
+    std::stringstream out;
+    out << "Datatype Message [0x" << std::hex << TYPE_ID << "] - version: 0x"
+        << version() << ", type id: 0x" << typeId()
+        << ", data size: " << std::dec << (int)dataSize();
+    return out.str();
 }
