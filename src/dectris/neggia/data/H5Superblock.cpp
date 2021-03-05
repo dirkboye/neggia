@@ -24,8 +24,10 @@ SOFTWARE.
 
 #include "H5Superblock.h"
 #include <assert.h>
+#include "H5ObjectHeader.h"
 #include "H5SymbolTableEntry.h"
 #include "PathResolverV0.h"
+#include "PathResolverV2.h"
 #include "constants.h"
 
 H5Superblock::H5Superblock(const char* fileAddress) : H5Object(fileAddress, 0) {
@@ -78,5 +80,6 @@ ResolvedPath H5Superblock::resolveV2(const H5Path& path) {
     uint64_t extensionAddress = *(uint64_t*)(fileAddress() + 20);
     assert(extensionAddress == H5_INVALID_ADDRESS);
     uint64_t rootGroupHeaderOffset = *(uint64_t*)(fileAddress() + 36);
-    throw std::runtime_error("resolveV2 not implemented.");
+    return PathResolverV2(H5ObjectHeader(fileAddress(), rootGroupHeaderOffset))
+            .resolve(path);
 }
