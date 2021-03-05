@@ -33,19 +33,21 @@ SOFTWARE.
 H5Superblock::H5Superblock(const char* fileAddress) : H5Object(fileAddress, 0) {
     const char magicNumber[] = "\211HDF\r\n\032\n";
     assert(std::string(fileAddress, 8) == std::string(magicNumber));
-    int version = (int)fileAddress[8];
-    _version = version;
+}
+
+uint8_t H5Superblock::version() const {
+    return read_u8(8);
 }
 
 ResolvedPath H5Superblock::resolve(const H5Path& path) {
-    switch (_version) {
+    switch (version()) {
         case 0:
             return resolveV0(path);
         case 2:
             return resolveV2(path);
         default:
             throw(std::runtime_error("superblock version " +
-                                     std::to_string(_version) +
+                                     std::to_string(version()) +
                                      " not supported."));
     }
 }

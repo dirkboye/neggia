@@ -34,12 +34,11 @@ class H5Superblock : public H5Object {
 public:
     H5Superblock() = default;
     H5Superblock(const char* fileAddress);
+    uint8_t version() const;
 
     ResolvedPath resolve(const H5Path& path);
 
 private:
-    int _version;
-
     ResolvedPath resolveV0(const H5Path& path);
     ResolvedPath resolveV2(const H5Path& path);
 };

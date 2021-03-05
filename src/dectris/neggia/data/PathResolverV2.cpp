@@ -48,12 +48,12 @@ ResolvedPath PathResolverV2::findPathInLinkMsg(
         case H5LinkMsg::SOFT: {
             H5Path targetPath(linkMsg.targetPath());
             return resolvePathInHeader(parentEntry, targetPath + remainingPath);
-        } break;
+        }
         case H5LinkMsg::HARD: {
             H5Path targetPath(linkMsg.targetPath());
             return resolvePathInHeader(linkMsg.hardLinkObjectHeader(),
                                        targetPath + remainingPath);
-        } break;
+        }
         case H5LinkMsg::EXTERNAL: {
             std::string targetFile = linkMsg.targetFile();
             H5Path targetPath(linkMsg.targetPath());
@@ -62,9 +62,9 @@ ResolvedPath PathResolverV2::findPathInLinkMsg(
                     std::unique_ptr<ResolvedPath::ExternalFile>{
                             new ResolvedPath::ExternalFile{
                                     targetFile, targetPath + remainingPath}}};
-        } break;
+        }
         default: {
-            throw std::runtime_error("unknown link type" + linkMsg.linkType());
+            throw std::runtime_error("unknown link type " + std::to_string(linkMsg.linkType()));
         }
     }
 }
